@@ -1,0 +1,59 @@
+#setup {
+	position: fixed;
+	z-index: 100;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: #DDDD;
+	overflow: hidden;
+	backdrop-filter: blur(8px);
+	width: calc(100% - 32px);
+	height: calc(100% - 32px);
+	max-width: 800px;
+	max-height: 540px;
+	border-radius: 32px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	box-shadow: 4px 4px 64px #0008;
+	transition: max-height .4s, height .4s;
+}
+
+#setup[data-shown=false] {
+	max-height: 0;
+	height: 0;
+}
+
+.split {
+	margin: 12px 0;
+	padding: 0 4px;
+	display: flex;
+	align-items: flex-start;
+	flex: 1;
+}
+
+.split > div {
+	flex: 1;
+}
+
+.play {
+	margin: 32px 0;
+	width: 100%;
+	display: flex;
+	justify-content: space-around;
+}
+
+.button {
+	background: #8C8;
+	display: inline-block;
+	margin: 4px;
+	padding: 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: transform .5s, box-shadow .5s;
+}
+
+.button:hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 32px#8C8;
+}

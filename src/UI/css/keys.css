@@ -1,0 +1,35 @@
+.controls {
+	display: flex;
+	align-items: center;
+}
+
+.controls .keymap {
+	margin-left: 16px;
+}
+
+.controls .keymap > div {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.controls .key {
+	padding: 4px 8px;
+	border: 2px solid #68F;
+	border-radius: 4px;
+	margin: 4px;
+	color: #348;
+	font-weight: bold;
+	background: #68F4;
+	font-size: 11px;
+	font-family: monospace;
+}
+
+.controls .desc {
+	font-family: monospace;
+	opacity: .7;
+	margin-left: 12px;
+}
+
+.controls .desc div {
+	margin: 18px 0;
+}

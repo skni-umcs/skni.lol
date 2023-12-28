@@ -1,0 +1,10 @@
+@import url(globals.css);
+@import url(window.css);
+@import url(header.css);
+@import url(keys.css);
+@import url(settings.css);
+
+body {
+	font-family: monospace;
+	user-select: none;
+}
