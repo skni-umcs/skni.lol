@@ -8,6 +8,7 @@ import { useEffect } from "react"
 export default function UI({store, rerender}) {
 	const [useUI, setUI] = store.ui
 	const [useHighRes, setHighRes] = store.highRes
+	const [useHighQuality, setHighQuality] = store.highQuality
 	const [usePixelation, setPixelation] = store.pixelation
 	const [useSMAA, setSMAA] = store.smaa
 
@@ -43,6 +44,13 @@ export default function UI({store, rerender}) {
 						<div className="desc">Poprawia jakość i eliminuje niektóre glitche, wymaga mocniejszej grafiki</div>
 					</div>
 				</div>
+				<div className="setting" data-enabled={useHighQuality} onClick={e => setHighQuality(!useHighQuality)}>
+					<span className="material-symbols-outlined">high_quality</span>
+					<div className="text">
+						<div className="name">Wysoka jakość</div>
+						<div className="desc">Używa cięższych tekstur i redukuje szum, nie ma wpływu na wydajność</div>
+					</div>
+				</div>
 				<div className="setting" data-enabled={usePixelation} onClick={e => setPixelation(!usePixelation)}>
 					<span className="material-symbols-outlined">smart_toy</span>
 					<div className="text">
@@ -54,7 +62,7 @@ export default function UI({store, rerender}) {
 					<span className="material-symbols-outlined">deblur</span>
 					<div className="text">
 						<div className="name">Użyj SMAA</div>
-						<div className="desc">Lepsze wygładzanie krawędzi, poprawia wygląd kosztem wydajności</div>
+						<div className="desc">Lepsze wygładzanie krawędzi, poprawia nieco wygląd</div>
 					</div>
 				</div>
 			</div>

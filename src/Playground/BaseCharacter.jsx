@@ -57,7 +57,7 @@ export default function BaseCharacter() {
 			type='dynamic'
 			canSleep={false}
 			ccd={true}
-			position={[0, characterHeight / 2, 0]}
+			position={[2, characterHeight / 2, 0]}
 			enabledRotations={[false, false, false]}>
 
 			<mesh>

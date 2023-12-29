@@ -7,16 +7,19 @@ import { LinearFilter, MeshBasicMaterial, NearestFilter, SRGBColorSpace, Scene }
 export default function Model({ store }) {
 	const obj = useGLTF("skni.glb")
 	const ref = useRef()
-	const [useHighRes, setHighRes] = store.highRes
+	const [useHighRes,] = store.highRes
+	const [useHighQuality,] = store.highQuality
 	const { gl } = useThree()
 	const maxAnisotropy = gl.capabilities.getMaxAnisotropy()
 	gl.setPixelRatio(1 * (1 + useHighRes))
 
+	const hq = (useHighQuality) ? "-hq" : ""
+
 	const [tBuilding, tFurniture, tElectronics, tStuff] = useTexture([
-		"textures/building.jpg",
-		"textures/furniture.jpg",
-		"textures/electronics.jpg",
-		"textures/stuff.jpg",
+		`textures/building${hq}.jpg`,
+		`textures/furniture${hq}.jpg`,
+		`textures/electronics${hq}.jpg`,
+		`textures/stuff${hq}.jpg`,
 	])
 
 	const scene = new Scene()
