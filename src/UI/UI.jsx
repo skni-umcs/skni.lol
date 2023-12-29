@@ -40,7 +40,7 @@ export default function UI({store, rerender}) {
 					<span className="material-symbols-outlined">high_res</span>
 					<div className="text">
 						<div className="name">Wysoka rozdzielczość</div>
-						<div className="desc">Poprawia ogólną jakość i ostrość, ale może mieć spory wpływ na wydajność</div>
+						<div className="desc">Poprawia jakość i eliminuje niektóre glitche, wymaga mocniejszej grafiki</div>
 					</div>
 				</div>
 				<div className="setting" data-enabled={usePixelation} onClick={e => setPixelation(!usePixelation)}>
@@ -54,7 +54,7 @@ export default function UI({store, rerender}) {
 					<span className="material-symbols-outlined">deblur</span>
 					<div className="text">
 						<div className="name">Użyj SMAA</div>
-						<div className="desc">Wygładzanie krawędzi, może poprawić wydajność względem domyślnego MSAA</div>
+						<div className="desc">Lepsze wygładzanie krawędzi, poprawia wygląd kosztem wydajności</div>
 					</div>
 				</div>
 			</div>

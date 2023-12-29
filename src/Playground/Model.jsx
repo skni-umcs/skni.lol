@@ -2,14 +2,15 @@ import { useGLTF, useTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import { Suspense, useRef } from "react";
-import { EquirectangularReflectionMapping, MeshBasicMaterial, MeshStandardMaterial, NearestFilter, RepeatWrapping, SRGBColorSpace, Scene } from "three";
+import { LinearFilter, MeshBasicMaterial, NearestFilter, SRGBColorSpace, Scene } from "three";
 
-export default function Model() {
+export default function Model({ store }) {
 	const obj = useGLTF("skni.glb")
 	const ref = useRef()
+	const [useHighRes, setHighRes] = store.highRes
 	const { gl } = useThree()
 	const maxAnisotropy = gl.capabilities.getMaxAnisotropy()
-	gl.outputColorSpace = SRGBColorSpace
+	gl.setPixelRatio(1 * (1 + useHighRes))
 
 	const [tBuilding, tFurniture, tElectronics, tStuff] = useTexture([
 		"textures/building.jpg",
@@ -31,10 +32,7 @@ export default function Model() {
 		if (texture) {
 			texture.flipY = false
 			texture.minFilter = NearestFilter
-			texture.wrapS = RepeatWrapping
-			texture.wrapT = RepeatWrapping
 			texture.magFilter = NearestFilter
-			texture.mapping = EquirectangularReflectionMapping
 			texture.anisotropy = maxAnisotropy
 			texture.colorSpace = SRGBColorSpace
 

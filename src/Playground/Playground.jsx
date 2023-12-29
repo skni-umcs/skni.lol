@@ -1,9 +1,9 @@
 import { KeyboardControls, PointerLockControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { Autofocus, EffectComposer, Glitch, Noise, Pixelation, SMAA, ToneMapping } from "@react-three/postprocessing";
 import Model from "./Model";
 import BaseCharacter from "./BaseCharacter";
-import { EquirectangularRefractionMapping, SRGBColorSpace } from "three";
+import { ACESFilmicToneMapping, CineonToneMapping, EquirectangularRefractionMapping, SRGBColorSpace } from "three";
 import DataStore from "../Utils/DataStore";
 import { Physics } from "@react-three/rapier";
 import { Suspense, useEffect, useState } from "react";
@@ -25,12 +25,17 @@ export default function Playground({store}) {
 		]}>
 		<Canvas
 			style={{opacity: 1 - useUI / 2, transition: "opacity 1.2s"}}
-			camera={{fov: 50}}
-			gl={{antialias: true, toneMapping: EquirectangularRefractionMapping, outputColorSpace: SRGBColorSpace}}
-			dpr={[0.5, 4]}>
+			camera={{fov: 60, far: 20}}
+			dpr={[1, 4]}
+			gl={{
+				pixelRatio: 1 * (1 + {useHighRes}),
+				outputColorSpace: SRGBColorSpace,
+				antialias: true,
+				toneMapping: ACESFilmicToneMapping
+			}}>
 			<Suspense fallback={null}>
 
-				<ambientLight intensity={2} color={0xffffff}></ambientLight>
+				<ambientLight intensity={1.5} color={0xffffff}></ambientLight>
 
 				<EffectComposer>
 					{usePixelation && <Pixelation granularity={10} />}
@@ -47,7 +52,7 @@ export default function Playground({store}) {
 				</EffectComposer>
 
 				<Physics>
-					<Model />
+					<Model store={store} />
 					<BaseCharacter />
 				</Physics>
 
