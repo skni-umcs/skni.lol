@@ -3,6 +3,7 @@ import "./css/main.css"
 import skniLogo from "../assets/skni.svg"
 import 'material-symbols'
 import { useEffect } from "react"
+import Setting from "./components/Setting"
 
 
 export default function UI({store, rerender}) {
@@ -37,34 +38,34 @@ export default function UI({store, rerender}) {
 
 		<div className="split">
 			<div className="settings">
-				<div className="setting" data-enabled={useHighRes} onClick={e => setHighRes(!useHighRes)}>
-					<span className="material-symbols-outlined">high_res</span>
-					<div className="text">
-						<div className="name">Wysoka rozdzielczość</div>
-						<div className="desc">Poprawia jakość i eliminuje niektóre glitche, wymaga mocniejszej grafiki</div>
-					</div>
-				</div>
-				<div className="setting" data-enabled={useHighQuality} onClick={e => setHighQuality(!useHighQuality)}>
-					<span className="material-symbols-outlined">high_quality</span>
-					<div className="text">
-						<div className="name">Wysoka jakość</div>
-						<div className="desc">Używa cięższych tekstur i redukuje szum, nie ma wpływu na wydajność</div>
-					</div>
-				</div>
-				<div className="setting" data-enabled={usePixelation} onClick={e => setPixelation(!usePixelation)}>
-					<span className="material-symbols-outlined">smart_toy</span>
-					<div className="text">
-						<div className="name">Pikselacja</div>
-						<div className="desc">Konwertuje stronę na 8-bitowy styl retro xd</div>
-					</div>
-				</div>
-				<div className="setting" data-enabled={useSMAA} onClick={e => setSMAA(!useSMAA)}>
-					<span className="material-symbols-outlined">deblur</span>
-					<div className="text">
-						<div className="name">Użyj SMAA</div>
-						<div className="desc">Lepsze wygładzanie krawędzi, poprawia nieco wygląd</div>
-					</div>
-				</div>
+				<Setting
+					icon="high_res"
+					title="Wysoka rozdzielczość"
+					description="Eliminuje niektóre glitche, ale ma spory wpływ na wydajność"
+					data-enabled={useHighRes}
+					onClick={e => setHighRes(!useHighRes)}
+				/>
+				<Setting
+					icon="high_quality"
+					title="Wysoka jakość"
+					description="Używa cięższych tekstur. Eliminuje szum, wymaga więcej danych do pobrania"
+					data-enabled={useHighQuality}
+					onClick={e => setHighQuality(!useHighQuality)}
+				/>
+				<Setting
+					icon="view_compact"
+					title="Pikselacja"
+					description="Robi 8-bitowy świat retro xdd"
+					data-enabled={usePixelation}
+					onClick={e => setPixelation(!usePixelation)}
+				/>
+				<Setting
+					icon="deblur"
+					title="Użyj SMAA"
+					description="Lepsze wygładzanie krawędzi, poprawia nieco wygląd"
+					data-enabled={useSMAA}
+					onClick={e => setSMAA(!useSMAA)}
+				/>
 			</div>
 			<div className="controls">
 				<div className="keymap">
