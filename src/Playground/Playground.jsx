@@ -51,7 +51,7 @@ export default function Playground({store}) {
 					/>
 				</EffectComposer>
 
-				<Physics>
+				<Physics gravity={[0, -20, 0]}>
 					<Model store={store} />
 					<BaseCharacter />
 				</Physics>

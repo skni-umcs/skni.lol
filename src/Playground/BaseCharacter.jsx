@@ -6,7 +6,7 @@ import { RigidBody } from '@react-three/rapier'
 
 
 // Configuration?
-const characterHeight = 1.8
+const characterHeight = 1.7
 const movingSpeed = 2.5
 
 
@@ -19,6 +19,7 @@ const sideVector = new THREE.Vector3()
 export default function BaseCharacter() {
 	const ref = useRef()
 	const [, get] = useKeyboardControls()
+	let jumpLock = false
 
 	useFrame((state) => {
 		const { forward, backward, left, right, jump } = get()
@@ -45,15 +46,18 @@ export default function BaseCharacter() {
 		state.camera.position.lerp(cameraTarget, 0.2)
 
 		// How does this even work?
-		const inAir = cameraTarget.y < characterHeight + 0.15
-		if (inAir) ref.current.applyImpulse({ x: 0, y: !(!jump) / 2, z: 0 }, true)
+		if (!jumpLock && jump) {
+			ref.current.applyImpulse({ x: 0, y: 3, z: 0 }, true)
+			jumpLock = true
+			setTimeout(() => {jumpLock = false}, 700)
+		}
 	})
 
 
 	return (
 		<RigidBody
 			ref={ref}
-			mass={1}
+			mass={10}
 			type='dynamic'
 			canSleep={false}
 			ccd={true}
