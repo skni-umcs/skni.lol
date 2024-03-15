@@ -1,23 +1,23 @@
-import { useGLTF, useTexture } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { useGLTF } from "@react-three/drei";
 import { RigidBody } from "@react-three/rapier";
-import { Suspense, useRef } from "react";
-import { Scene } from "three";
+import { useRef } from "react";
 
 export default function Model({ store }) {
 	const obj = useGLTF("skni.glb")
 	const ref = useRef()
 
-	const scene = new Scene()
+	// Shadows, later
+	// for (let g of obj.scene.children) {
+	// 	g.traverse(mesh => {
+	// 		if (mesh.isMesh) {
+	// 			mesh.castShadow = true
+	// 			mesh.receiveShadow = true
+	// 		}
+	// 	})
+	// }
 
-	for (let g of obj.scene.children) {
-		g.castShadow = true
-		g.receiveShadow = true
-		scene.add(g)
-	}
-
-	return <RigidBody ref={ref} type="fixed" colliders="trimesh">
-			<primitive object={scene}></primitive>
+	return <RigidBody ref={ref} type="fixed" colliders="trimesh" receiveShadow>
+			<primitive object={obj.scene}></primitive>
 		</RigidBody>
 }
 

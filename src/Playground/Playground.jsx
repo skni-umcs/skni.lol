@@ -1,19 +1,17 @@
-import { KeyboardControls, PointerLockControls, SoftShadows, SpotLight } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import { Autofocus, EffectComposer, Glitch, Noise, Pixelation, SMAA, ToneMapping } from "@react-three/postprocessing";
+import { KeyboardControls, PointerLockControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
+import { SRGBColorSpace } from "three";
+import { Physics } from "@react-three/rapier";
+import { Suspense } from "react";
+import { BlendFunction } from 'postprocessing'
+
 import Model from "./Model";
 import BaseCharacter from "./BaseCharacter";
-import { ACESFilmicToneMapping, CineonToneMapping, EquirectangularRefractionMapping, SRGBColorSpace } from "three";
-import DataStore from "../Utils/DataStore";
-import { Physics } from "@react-three/rapier";
-import { Suspense, useEffect, useState } from "react";
-import { BlendFunction } from 'postprocessing'
+
 
 export default function Playground({store}) {
 	const [useUI,] = store.ui
-	const [useHighRes,] = store.highRes
-	const [usePixelation,] = store.pixelation
-	const [useSMAA,] = store.smaa
 
 	return <KeyboardControls
 		map={[
@@ -23,30 +21,21 @@ export default function Playground({store}) {
 			{ name: 'right', keys: ['d', 'D'] },
 			{ name: 'jump', keys: ['Space'] },
 		]}>
-		<Canvas
-			style={{opacity: 1 - useUI / 2, transition: "opacity 1.2s"}}
-			camera={{fov: 60, far: 20}} shadows
-			dpr={[1, 2]}
+		<Canvas style={{
+			position: "fixed",
+			width: "100vw",
+			height: "100vh",
+			opacity: 1 - useUI / 2,
+			transition: "opacity 1.2s"
+		}}
+			camera={{fov: 65, far: 10}} dpr={[1, 2]} shadows
 			gl={{
-				pixelRatio: 1 * (1 + {useHighRes}),
 				outputColorSpace: SRGBColorSpace,
 				antialias: true,
 			}}>
 			<ambientLight intensity={.05} color={0xffffff}></ambientLight>
 
-			<SpotLight 
-				shadow-mapSize-height={512}
-				shadow-mapSize-width={512}
-				position={[0,3,0]}
-				distance={7}
-				angle={Math.PI /2}
-				intensity={50}
-				color={0xffbb88}
-				castShadow />
-
 			<EffectComposer>
-				{usePixelation && <Pixelation granularity={10} />}
-				{useSMAA && <SMAA />}
 				<ToneMapping
 					blendFunction={BlendFunction.COLOR}
 					adaptive={true}
@@ -65,6 +54,6 @@ export default function Playground({store}) {
 
 			<PointerLockControls selector="#play" />
 
-		</Canvas>
+			</Canvas>
 	</KeyboardControls>
 }
