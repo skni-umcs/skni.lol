@@ -3,15 +3,16 @@ import { Canvas } from "@react-three/fiber";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { SRGBColorSpace } from "three";
 import { Physics } from "@react-three/rapier";
-import { Suspense } from "react";
-import { BlendFunction } from 'postprocessing'
+import { BlendFunction } from "postprocessing";
 
 import Model from "./Model";
 import BaseCharacter from "./BaseCharacter";
+import { useData } from "../Utils/DataProvider";
 
 
-export default function Playground({store}) {
-	const [useUI,] = store.ui
+export default function Playground() {
+	const data = useData()
+	const useUI = data.ui
 
 	return <KeyboardControls
 		map={[
@@ -22,18 +23,18 @@ export default function Playground({store}) {
 			{ name: 'jump', keys: ['Space'] },
 		]}>
 		<Canvas style={{
-			position: "fixed",
-			width: "100vw",
-			height: "100vh",
-			opacity: 1 - useUI / 2,
-			transition: "opacity 1.2s"
-		}}
+				position: "fixed",
+				width: "100vw",
+				height: "100vh",
+				opacity: 1 - useUI / 2,
+				transition: "opacity 1.2s"
+			}}
 			camera={{fov: 65, far: 10}} dpr={[1, 2]} shadows
 			gl={{
 				outputColorSpace: SRGBColorSpace,
 				antialias: true,
 			}}>
-			<ambientLight intensity={.05} color={0xffffff}></ambientLight>
+			<ambientLight intensity={.05} color={0xffffff} />
 
 			<EffectComposer>
 				<ToneMapping
@@ -48,12 +49,12 @@ export default function Playground({store}) {
 			</EffectComposer>
 
 			<Physics gravity={[0, -20, 0]}>
-				<Model store={store} />
+				<Model />
 				<BaseCharacter />
 			</Physics>
 
 			<PointerLockControls selector="#play" />
 
-			</Canvas>
+		</Canvas>
 	</KeyboardControls>
 }

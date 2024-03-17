@@ -13,6 +13,6 @@ body, #root {
 	padding-top: 48px;
 	width: calc(100% - 64px);
 	margin: 0 auto;
-	max-width: 1080px;
-	min-width: 640px;
+	max-width: 960px;
+	min-width: 720px;
 }
