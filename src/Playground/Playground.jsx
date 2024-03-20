@@ -1,5 +1,5 @@
 import { KeyboardControls, PointerLockControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import { Canvas, useThree } from "@react-three/fiber";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { SRGBColorSpace } from "three";
 import { Physics } from "@react-three/rapier";
@@ -21,6 +21,7 @@ export default function Playground() {
 			{ name: 'left', keys: ['a', 'A'] },
 			{ name: 'right', keys: ['d', 'D'] },
 			{ name: 'jump', keys: ['Space'] },
+			{ name: 'run', keys: ['Shift'] },
 		]}>
 		<Canvas style={{
 				position: "fixed",
@@ -29,7 +30,7 @@ export default function Playground() {
 				opacity: 1 - useUI / 2,
 				transition: "opacity 1.2s"
 			}}
-			camera={{fov: 65, far: 10}} dpr={[1, 2]} shadows
+			camera={{fov: 65, far: 1000}} dpr={[1, 2]} shadows
 			gl={{
 				outputColorSpace: SRGBColorSpace,
 				antialias: true,

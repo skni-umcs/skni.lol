@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useKeyboardControls } from '@react-three/drei'
-import { RigidBody } from '@react-three/rapier'
+import { CapsuleCollider, RigidBody } from '@react-three/rapier'
 import { useRef, useState } from 'react'
 
 import {useData} from '../Utils/DataProvider'
@@ -10,6 +10,7 @@ import {useData} from '../Utils/DataProvider'
 // Configuration?
 const characterHeight = 1.8
 const movingSpeed = 2.5
+const runSpeed = movingSpeed * 2.5
 
 
 // Worker variables, do not touch
@@ -20,13 +21,13 @@ const sideVector = new THREE.Vector3()
 
 export default function BaseCharacter() {
 	const data = useData()
-	const [,getKbd] = useKeyboardControls()
 	const ref = useRef()
+	const [,getKbd] = useKeyboardControls()
 	const [firstRun, setFirstRun] = useState(true)
 	let jumpLock = false
 
 	useFrame((state) => {
-		const { forward, backward, left, right, jump } = getKbd()
+		const { forward, backward, left, right, jump, run } = getKbd()
 		if (!ref.current) return
 
 		const velocity = ref.current.linvel()
@@ -49,9 +50,9 @@ export default function BaseCharacter() {
 
 		// Apply movement
 		ref.current.setLinvel({
-			x: direction.x * movingSpeed,
+			x: direction.x * (!run ? movingSpeed : runSpeed),
 			y: velocity.y,
-			z: direction.z * movingSpeed
+			z: direction.z * (!run ? movingSpeed : runSpeed)
 		})
 
 		// Update camera
@@ -61,7 +62,7 @@ export default function BaseCharacter() {
 
 		// How does this even work?
 		if (!jumpLock && jump) {
-			ref.current.applyImpulse({ x: 0, y: 0.4, z: 0 }, true)
+			ref.current.applyImpulse({ x: 0, y: 1.25, z: 0 }, true)
 			jumpLock = true
 			setTimeout(() => {jumpLock = false}, 700)
 		}
@@ -70,14 +71,13 @@ export default function BaseCharacter() {
 	return (
 		<RigidBody
 			ref={ref}
-			mass={10}
-			type='dynamic'
+			type="dynamic"
 			canSleep={false}
 			ccd={true}
 			position={data.position}
-			enabledRotations={[false, true, false]}>
+			enabledRotations={[false, false, false]}>
 			<mesh>
-				<capsuleGeometry args={[0.1, characterHeight, 8, 16]} />
+				<capsuleGeometry args={[0.2, characterHeight, 3, 3]} />
 				<meshBasicMaterial opacity={0} transparent />
 			</mesh>
 		</RigidBody>
