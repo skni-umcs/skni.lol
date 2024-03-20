@@ -5,6 +5,7 @@ import { useEffect } from "react"
 import { useData } from '../Utils/DataProvider'
 import About from './About'
 import KeyboardControls from './KeyboardControls'
+import Settings from './Settings'
 
 
 export default function UI() {
@@ -55,7 +56,7 @@ export default function UI() {
 					{specialKey: "space", desc: "Podskocz"},
 				]} />
 
-				<div>Ustawienia, na potem</div>
+				<Settings />
 
 			</div>
 			<Divider />

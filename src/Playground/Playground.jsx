@@ -1,4 +1,4 @@
-import { KeyboardControls, PointerLockControls } from "@react-three/drei";
+import { KeyboardControls, PerspectiveCamera, PointerLockControls } from "@react-three/drei";
 import { Canvas, useThree } from "@react-three/fiber";
 import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
 import { SRGBColorSpace } from "three";
@@ -8,10 +8,12 @@ import { BlendFunction } from "postprocessing";
 import Model from "./Model";
 import BaseCharacter from "./BaseCharacter";
 import { useData } from "../Utils/DataProvider";
+import { useEffect, useRef } from "react";
 
 
 export default function Playground() {
 	const data = useData()
+	const res = [0.25, 0.5, 1, 1.5, 2]
 	const useUI = data.ui
 
 	return <KeyboardControls
@@ -30,11 +32,21 @@ export default function Playground() {
 				opacity: 1 - useUI / 2,
 				transition: "opacity 1.2s"
 			}}
-			camera={{fov: 65, far: 1000}} dpr={[1, 2]} shadows
+			dpr={[res[data.resolution], res[data.resolution]]}
+			shadows
 			gl={{
 				outputColorSpace: SRGBColorSpace,
 				antialias: true,
 			}}>
+
+<PerspectiveCamera
+        ref={data.camera}
+        makeDefault
+        fov={65}
+        aspect={window.innerWidth / window.innerHeight}
+        far={data.cameraFars[data.distance]} // Adjust this value as needed
+      />
+
 			<ambientLight intensity={.05} color={0xffffff} />
 
 			<EffectComposer>
