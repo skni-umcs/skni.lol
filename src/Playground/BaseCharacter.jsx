@@ -1,8 +1,8 @@
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
 import { useKeyboardControls } from '@react-three/drei'
-import { CapsuleCollider, RigidBody } from '@react-three/rapier'
-import { useRef, useState } from 'react'
+import { RigidBody } from '@react-three/rapier'
+import { useEffect, useRef } from 'react'
 
 import {useData} from '../Utils/DataProvider'
 
@@ -23,7 +23,6 @@ export default function BaseCharacter() {
 	const data = useData()
 	const ref = useRef()
 	const [,getKbd] = useKeyboardControls()
-	const [firstRun, setFirstRun] = useState(true)
 	let jumpLock = false
 
 	useFrame((state) => {
@@ -32,13 +31,6 @@ export default function BaseCharacter() {
 
 		const velocity = ref.current.linvel()
 
-		// Restart button
-		if (firstRun) {
-			setFirstRun(false)
-			data.setResetPosition(() => {
-				return () => ref.current.setTranslation(data.position)
-			})
-		}
 
 		// Magic movement calculations
 		frontVector.set(0, 0, backward - forward)
@@ -67,6 +59,16 @@ export default function BaseCharacter() {
 			setTimeout(() => {jumpLock = false}, 700)
 		}
 	})
+
+	useEffect(() => {
+		if (data.loadProgress < 100) return
+		data.setResetPosition(() => {
+			return () => {
+				ref.current.setLinvel({x: 0, y: 0, z: 0})
+				ref.current.setTranslation(data.position)
+			}
+		})
+	}, [data.loadProgress])
 
 	return (
 		<RigidBody

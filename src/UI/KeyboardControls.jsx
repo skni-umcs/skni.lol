@@ -8,10 +8,15 @@ export default function KeyboardControls({controls}) {
 				<TableColumn>Działanie</TableColumn>
 			</TableHeader>
 			<TableBody>
-				{controls.map((key) => {
-					return <TableRow>
-						<TableCell><Kbd keys={[key.specialKey]}>{key.key}</Kbd></TableCell>
-						<TableCell>{key.desc}</TableCell>
+				{controls.map((key, i) => {
+					const desc = key.desc
+					let specialKey = []
+					let btn = ""
+					if (key.key.length > 1) specialKey = key.key
+					else btn = key.key
+					return <TableRow key={i}>
+						<TableCell><Kbd keys={specialKey}>{btn}</Kbd></TableCell>
+						<TableCell>{desc}</TableCell>
 					</TableRow>
 				})}
 			</TableBody>

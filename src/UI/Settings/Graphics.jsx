@@ -29,7 +29,6 @@ export default function Graphics() {
 			setVal={data.setDistance}
 			onChangeFunc={(v) => {
 				if (!data.camera.current) return
-				console.log("Xd")
 				data.camera.current.far = data.cameraFars[v]
 				data.camera.current.updateProjectionMatrix()
 			}}

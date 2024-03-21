@@ -13,7 +13,6 @@ import { useEffect, useRef } from "react";
 
 export default function Playground() {
 	const data = useData()
-	const res = [0.25, 0.5, 1, 1.5, 2]
 	const useUI = data.ui
 
 	return <KeyboardControls
@@ -32,22 +31,20 @@ export default function Playground() {
 				opacity: 1 - useUI / 2,
 				transition: "opacity 1.2s"
 			}}
-			dpr={[res[data.resolution], res[data.resolution]]}
-			shadows
+			dpr={[data.resolutions[data.resolution], data.resolutions[data.resolution]]}
+			
 			gl={{
 				outputColorSpace: SRGBColorSpace,
-				antialias: true,
+				antialias: false,
 			}}>
 
-<PerspectiveCamera
-        ref={data.camera}
-        makeDefault
-        fov={65}
-        aspect={window.innerWidth / window.innerHeight}
-        far={data.cameraFars[data.distance]} // Adjust this value as needed
-      />
+			<PerspectiveCamera
+				ref={data.camera}
+				makeDefault
+				fov={65}
+				far={data.cameraFars[data.distance]} />
 
-			<ambientLight intensity={.05} color={0xffffff} />
+			<ambientLight intensity={.025} color={0xffffff} />
 
 			<EffectComposer>
 				<ToneMapping

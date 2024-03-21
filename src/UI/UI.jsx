@@ -52,8 +52,8 @@ export default function UI() {
 					{key: "A", desc: "Idź w lewo"},
 					{key: "S", desc: "Idź do tyłu"},
 					{key: "D", desc: "Idź w prawo"},
-					{specialKey: "shift", desc: "Biegnij"},
-					{specialKey: "space", desc: "Podskocz"},
+					{key: "shift", desc: "Biegnij"},
+					{key: "space", desc: "Podskocz"},
 				]} />
 
 				<Settings />
