@@ -5,6 +5,7 @@ import { useData } from "../Utils/DataProvider"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Group } from "three"
 import Clickable from "./components/Clickable"
+import Clock from "./components/Clock"
 
 export default function Model() {
 	const data = useData()
@@ -29,6 +30,7 @@ export default function Model() {
 		let toremove = []
 		let stuff = []
 		let lights = {}
+		let clock = {}
 
 		scene.traverse(node => {
 			let name = node.name.toLowerCase()
@@ -60,6 +62,14 @@ export default function Model() {
 				node.material.roughness = 0
 				node.material.opacity = 0.1
 			}
+
+			if (name.startsWith("#clock")) {
+				const type = name.replaceAll("#clock", "")
+				if (type.length) {
+					clock[type] = node.clone()
+					toremove.push(node)
+				}
+			}
 		})
 
 		for (let node of toremove) {
@@ -88,6 +98,8 @@ export default function Model() {
 			}
 			scene.remove(node)
 		}
+
+		stuff.push(<Clock key="live-clock" H={clock.h} M={clock.m} S={clock.s} />)
 
 		setLights(lights)
 		setScene(scene)
