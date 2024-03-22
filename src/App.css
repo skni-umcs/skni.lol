@@ -23,3 +23,36 @@ body, #root {
 	50% { transform: scale(1.5) }
 	100% { transform: scale(1) }
 }
+
+#crosshair {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	border-radius: 100px;
+	border: 3px solid #000;
+	background: #0004;
+	opacity: .2;
+	overflow: hidden;
+	width: 0;
+	height: 0;
+	transition: all .3s;
+}
+
+#crosshair.hover {
+	width: 48px;
+	height: 48px;
+	opacity: .4;
+}
+
+#crosshair > * {
+	color: #000;
+	position: fixed;
+	width: 32px;
+	height: 32px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	transition: all .3s;
+}

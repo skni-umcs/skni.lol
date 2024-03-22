@@ -1,14 +1,13 @@
-import { KeyboardControls, PerspectiveCamera, PointerLockControls } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import { EffectComposer, ToneMapping } from "@react-three/postprocessing";
-import { SRGBColorSpace } from "three";
-import { Physics } from "@react-three/rapier";
-import { BlendFunction } from "postprocessing";
+import { KeyboardControls, PerspectiveCamera, PointerLockControls } from "@react-three/drei"
+import { Canvas } from "@react-three/fiber"
+import { EffectComposer, ToneMapping } from "@react-three/postprocessing"
+import { SRGBColorSpace } from "three"
+import { Physics } from "@react-three/rapier"
+import { BlendFunction } from "postprocessing"
 
-import Model from "./Model";
-import BaseCharacter from "./BaseCharacter";
-import { useData } from "../Utils/DataProvider";
-import { useEffect, useRef } from "react";
+import Model from "./Model"
+import BaseCharacter from "./BaseCharacter"
+import { useData } from "../Utils/DataProvider"
 
 
 export default function Playground() {
@@ -32,11 +31,12 @@ export default function Playground() {
 				transition: "opacity 1.2s"
 			}}
 			dpr={[data.resolutions[data.resolution], data.resolutions[data.resolution]]}
-			
+			shadows
 			gl={{
 				outputColorSpace: SRGBColorSpace,
-				antialias: false,
+				antialias: true,
 			}}>
+			<fog attach="fog" args={[0x000000, 0, 200]} />
 
 			<PerspectiveCamera
 				ref={data.camera}
@@ -50,10 +50,10 @@ export default function Playground() {
 				<ToneMapping
 					blendFunction={BlendFunction.COLOR}
 					adaptive={true}
-					resolution={256}
-					middleGrey={0.6}
+					resolution={512}
+					middleGrey={0.5}
 					maxLuminance={32}
-					averageLuminance={2}
+					averageLuminance={4}
 					adaptationRate={1.0}
 				/>
 			</EffectComposer>

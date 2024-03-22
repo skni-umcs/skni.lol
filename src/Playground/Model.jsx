@@ -1,94 +1,126 @@
-import { useGLTF, useProgress } from "@react-three/drei"
+import { useGLTF } from "@react-three/drei"
 import { RigidBody } from "@react-three/rapier"
 import { useEffect, useState } from "react"
 import { useData } from "../Utils/DataProvider"
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Group, Scene } from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
+import { Group } from "three"
+import Clickable from "./components/Clickable"
 
 export default function Model() {
 	const data = useData()
 	const [scene, setScene] = useState(new Group)
 	const [rigID, setRigID] = useState(0)
-	const [customElements, setCustomElements] = useState({
-		door: {},
-		light: {},
-		screen: {},
-		window: {},
-	})
-	
+
+	// Modified elements
+	const [stuff, setStuff] = useState([])
+	const [lights, setLights] = useState({})
+
 	const loadModel = () => {
-		// Brute force loading this fucking model
 		const loader = new GLTFLoader()
 		loader.load("skni.glb", gltf => {
-			console.log(gltf)
-			setScene(gltf.scene.clone())
+			configureModel(gltf.scene)
 		}, (xhr) => {
 			let value = 100 * xhr.loaded / xhr.total
 			data.setLoadProgress(value.toFixed(2))
 		})
 	}
 
-	const configureModel = () => { try {
-		scene.traverse((node) => {
-			let name = node.name.toLowerCase();
-			node.castShadow = true;
-			node.receiveShadow = true;
-			
+	const configureModel = (scene) => {
+		let toremove = []
+		let stuff = []
+		let lights = {}
+
+		scene.traverse(node => {
+			let name = node.name.toLowerCase()
+			node.castShadow = true
+			node.receiveShadow = true
+
 			if (name.startsWith("#door")) {
-				// setCustomElements((prevElements) => ({
-				// 	...prevElements,
-				// 	door: { ...prevElements.door, [name]: node.clone() },
-				// }));
-				scene.remove(node);
+				stuff.push(
+					<RigidBody key={node.uuid}>
+						<primitive object={node.clone()} />
+					</RigidBody>
+				)
+				toremove.push(node)
 			}
-			
-			if (node.type === "PointLight") {
-				node.castShadow = true;
-				node.receiveShadow = true;
-				node.shadow.bias = -0.0005;
-				if (name.includes("lantern")) {
-					node.castShadow = data.shadow === 2;
-				}
-				setCustomElements((prevElements) => ({
-					...prevElements,
-					light: { ...prevElements.light, [name]: node },
-				}));
+
+			if (name.startsWith("#switch")) {
+				toremove.push(node)
 			}
-			
-			if (name.startsWith("#screen")) {
-				setCustomElements((prevElements) => ({
-					...prevElements,
-					screen: { ...prevElements.screen, [name]: node },
-				}));
+
+			if (node.type.includes("Light")) {
+				node.shadow.bias = -0.016
+				node.shadow.camera.near = 0.001
+				node.shadow.camera.far = 10
+				if (node.shadowMap) node.shadowMap.enabled = true
+				node.castShadow = false
+				node.distance = 10
+				if (name.includes("area")) node.distance = 100
+				lights[name] = node
 			}
-			
+
 			if (node.material && node.material.name.toLowerCase().includes("window")) {
-				node.material.transparent = true;
-				node.material.metalness = 0.5;
-				node.material.roughness = 0;
-				node.material.opacity = 0.1;
-				setCustomElements((prevElements) => ({
-					...prevElements,
-					window: { ...prevElements.window, [name]: node },
-				}));
+				node.material.transparent = true
+				node.material.metalness = 0.5
+				node.material.roughness = 0
+				node.material.opacity = 0.1
 			}
 		})
-		setRigID(id => ++id)
-		data.resetPosition()
-	} catch (e) {
-		console.warn(e)
-		setTimeout(configureModel, 500)
-	}}
+
+		for (let node of toremove) {
+			const name = node.name.toLowerCase()
+			if (name.startsWith("#switch")) {
+				const sala = name.replaceAll("#switch", "").slice(0, 3)
+				const target = `light${sala}`
+				stuff.push(
+					<Clickable key={node.uuid} object={node.clone()}
+						onClick={v => {
+							for (let n in lights) {
+								if (n.startsWith(target)) {
+									lights[n].visible = v
+								}
+							}
+						}}
+					/>
+				)
+			}
+			scene.remove(node)
+		}
+
+		setLights(lights)
+		setScene(scene)
+		setTimeout(() => {
+			setStuff(stuff)
+		}, 500)
+	}
 
 	useEffect(loadModel, [])
-
 	useEffect(() => {
-		configureModel()
+		setRigID(id => ++id)
+		setTimeout(data.resetPosition, 1000)
 	}, [scene])
 
-	return <RigidBody type="fixed" colliders="trimesh" key={rigID}>
-		<primitive object={scene} />
-	</RigidBody>
+	useEffect(() => {
+		for (let name in lights) {
+			let node = lights[name]
+			node.castShadow = data.shadows > 0
+			if (name.includes("area") || name.includes("police")) {
+				node.castShadow = data.shadows === 2
+			}
+		}
+	}, [data.shadows])
+
+	return <>
+
+		<RigidBody type="fixed" colliders="trimesh" key={rigID}>
+			<primitive object={scene} />
+		</RigidBody>
+
+		{stuff.map(e => {
+			return e
+		})}
+
+	</>
 }
 
 useGLTF.preload("skni.glb")

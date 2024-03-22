@@ -5,7 +5,7 @@ import { useEffect } from "react"
 import { useData } from '../Utils/DataProvider'
 import About from './About'
 import KeyboardControls from './KeyboardControls'
-import Settings from './Settings'
+import Settings from './Settings/Settings'
 
 
 export default function UI() {

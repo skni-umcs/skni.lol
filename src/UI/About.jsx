@@ -1,5 +1,5 @@
-import { Button, ButtonGroup, Chip, Divider, Image, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react";
-import * as icons from "react-icons/lu";
+import { Button, ButtonGroup, Chip, Divider, Image, Link, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
+import * as icons from "react-icons/lu"
 
 export default function About({isOpen, onOpen, onOpenChange}) {
 	return <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop='blur'>

@@ -1,6 +1,6 @@
-import { Image, Progress } from "@nextui-org/react";
-import { useData } from "../Utils/DataProvider";
-import { useEffect, useState } from "react";
+import { Image, Progress } from "@nextui-org/react"
+import { useData } from "../Utils/DataProvider"
+import { useEffect, useState } from "react"
 
 export default function Loading() {
 	const data = useData()

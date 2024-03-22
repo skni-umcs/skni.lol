@@ -1,4 +1,4 @@
-import { Slider } from "@nextui-org/react";
+import { Slider } from "@nextui-org/react"
 
 export default function SliderTile({title, val, setVal, arr, onChangeFunc}) {
 	const f = (v) => {
