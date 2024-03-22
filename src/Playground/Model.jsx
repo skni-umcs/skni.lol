@@ -8,13 +8,12 @@ import Clickable from "./components/Clickable"
 
 export default function Model() {
 	const data = useData()
-	const [scene, setScene] = useState(new Group)
+	const [scene, setScene] = useState(new Group())
 	const [rigID, setRigID] = useState(0)
-
-	// Modified elements
 	const [stuff, setStuff] = useState([])
 	const [lights, setLights] = useState({})
 
+	// Fetch gltf
 	const loadModel = () => {
 		const loader = new GLTFLoader()
 		loader.load("skni.glb", gltf => {
@@ -25,6 +24,7 @@ export default function Model() {
 		})
 	}
 
+	// Configure scene
 	const configureModel = (scene) => {
 		let toremove = []
 		let stuff = []
@@ -36,15 +36,10 @@ export default function Model() {
 			node.receiveShadow = true
 
 			if (name.startsWith("#door")) {
-				stuff.push(
-					<RigidBody key={node.uuid}>
-						<primitive object={node.clone()} />
-					</RigidBody>
-				)
 				toremove.push(node)
 			}
 
-			if (name.startsWith("#switch")) {
+			else if (name.startsWith("#switch")) {
 				toremove.push(node)
 			}
 
@@ -61,7 +56,7 @@ export default function Model() {
 
 			if (node.material && node.material.name.toLowerCase().includes("window")) {
 				node.material.transparent = true
-				node.material.metalness = 0.5
+				node.material.metalness = 0.4
 				node.material.roughness = 0
 				node.material.opacity = 0.1
 			}
@@ -69,7 +64,14 @@ export default function Model() {
 
 		for (let node of toremove) {
 			const name = node.name.toLowerCase()
-			if (name.startsWith("#switch")) {
+			if (name.startsWith("#door")) {
+				stuff.push(
+					<RigidBody key={node.uuid}>
+						<primitive object={node.clone()} />
+					</RigidBody>
+				)
+			}
+			else if (name.startsWith("#switch")) {
 				const sala = name.replaceAll("#switch", "").slice(0, 3)
 				const target = `light${sala}`
 				stuff.push(

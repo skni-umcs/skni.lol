@@ -8,7 +8,7 @@ import {useData} from '../Utils/DataProvider'
 
 
 // Configuration?
-const characterHeight = 1.8
+const characterHeight = 1.7
 const movingSpeed = 2.5
 const runSpeed = movingSpeed * 2.5
 
@@ -28,19 +28,17 @@ export default function BaseCharacter() {
 	useFrame((state) => {
 		const { forward, backward, left, right, jump, run } = getKbd()
 		if (!ref.current) return
-
-		const velocity = ref.current.linvel()
-
-
+		
 		// Magic movement calculations
 		frontVector.set(0, 0, backward - forward)
 		sideVector.set(left - right, 0, 0)
 		direction
-			.subVectors(frontVector, sideVector)
-			.normalize()
-			.applyEuler(state.camera.rotation)
-
+		.subVectors(frontVector, sideVector)
+		.normalize()
+		.applyEuler(state.camera.rotation)
+		
 		// Apply movement
+		const velocity = ref.current.linvel()
 		ref.current.setLinvel({
 			x: direction.x * (!run ? movingSpeed : runSpeed),
 			y: velocity.y,
@@ -54,7 +52,7 @@ export default function BaseCharacter() {
 
 		// How does this even work?
 		if (!jumpLock && jump) {
-			ref.current.applyImpulse({ x: 0, y: 1.25, z: 0 }, true)
+			ref.current.applyImpulse({ x: 0, y: 1, z: 0 }, true)
 			jumpLock = true
 			setTimeout(() => {jumpLock = false}, 700)
 		}
