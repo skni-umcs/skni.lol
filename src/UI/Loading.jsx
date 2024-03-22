@@ -44,7 +44,7 @@ export default function Loading() {
 			<div className="flex justify-between items-end m-2" style={{color: "#666"}}>
 				<div>Ładowanie zasobów...</div>
 				<div style={{fontSize: 24, color: colorT, fontWeight: "bold"}}>
-					{data.loadProgress}%
+					{Math.round(data.loadProgress)}%
 				</div>
 			</div>
 
