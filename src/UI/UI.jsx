@@ -1,22 +1,30 @@
-import DataStore from "../Utils/DataStore"
-import "./css/main.css"
-import skniLogo from "../assets/skni.svg"
+import { Button, Card, CardHeader, Divider, Image, useDisclosure } from '@nextui-org/react'
 import 'material-symbols'
 import { useEffect } from "react"
-import Setting from "./components/Setting"
+
+import { useData } from '../Utils/DataProvider'
+import About from './About'
+import KeyboardControls from './KeyboardControls'
+import Settings from './Settings/Settings'
 
 
-export default function UI({store, rerender}) {
-	const [useUI, setUI] = store.ui
-	const [useHighRes, setHighRes] = store.highRes
-	const [useHighQuality, setHighQuality] = store.highQuality
-	const [usePixelation, setPixelation] = store.pixelation
-	const [useSMAA, setSMAA] = store.smaa
+export default function UI() {
+	const data = useData()
+	const [useUI, setUI] = [data.ui, data.setUi]
+	const {isOpen, onOpen, onOpenChange} = useDisclosure()
+
+	const resetScene = () => {
+		if (!data.showScene) return
+		data.setShowScene(false)
+		setTimeout(() => {
+			data.setShowScene(true)
+		}, 100)
+	}
 
 	useEffect(() => {
-		const func = (e) => {
+		const func = () => {
+			setUI(!document.pointerLockElement)
 			if (!document.pointerLockElement) {
-				setUI(true)
 				document.exitPointerLock()
 			}
 		}
@@ -26,69 +34,51 @@ export default function UI({store, rerender}) {
 		}
 	}, [])
 
-	useEffect(() => {
-		rerender()
-	})
+	return <div id="main" style={{
+			opacity: 1 * useUI,
+			visibility: useUI ? "visible" : "hidden",
+			transform: `translateY(${-256 * !useUI}px)`,
+			transition: `opacity .5s, transform .5s, visibility .5s .${5 * !useUI}s`
+		}}>
+		<Card shadow>
 
-	return <div id="setup" data-shown={useUI}>
-		<div className="header">
-			<img src={skniLogo}></img>
-			<div>lol edition</div>
-		</div>
-
-		<div className="split">
-			<div className="settings">
-				<Setting
-					icon="high_res"
-					title="Wysoka rozdzielczość"
-					description="Eliminuje niektóre glitche, ale ma spory wpływ na wydajność"
-					data-enabled={useHighRes}
-					onClick={e => setHighRes(!useHighRes)}
-				/>
-				<Setting
-					icon="high_quality"
-					title="Wysoka jakość"
-					description="Używa cięższych tekstur. Eliminuje szum, wymaga więcej danych do pobrania"
-					data-enabled={useHighQuality}
-					onClick={e => setHighQuality(!useHighQuality)}
-				/>
-				<Setting
-					icon="view_compact"
-					title="Pikselacja"
-					description="Robi 8-bitowy świat retro xdd"
-					data-enabled={usePixelation}
-					onClick={e => setPixelation(!usePixelation)}
-				/>
-				<Setting
-					icon="deblur"
-					title="Użyj SMAA"
-					description="Lepsze wygładzanie krawędzi, poprawia nieco wygląd"
-					data-enabled={useSMAA}
-					onClick={e => setSMAA(!useSMAA)}
-				/>
-			</div>
-			<div className="controls">
-				<div className="keymap">
-					<div><div className="key">W</div></div>
-					<div><div className="key">S</div></div>
-					<div><div className="key">A</div></div>
-					<div><div className="key">D</div></div>
-					<div><div className="key">SPACJA</div></div>
-					<div><div className="key">ESC</div></div>
+			{/* Header */}
+			<CardHeader className="flex gap-4">
+				<Image height={48} width={48} src="/icon.png" />
+				<div className="flex flex-col">
+					<p className="text-md">SKNI.lol</p>
+					<p className="text-small text-default-500">Studenckie Koło Naukowe Informatyki, ale w nieoficjalnym wydaniu xd</p>
 				</div>
-				<div className="desc">
-					<div>Idź naprzód</div>
-					<div>Idź w tył</div>
-					<div>Idź w lewo</div>
-					<div>Idź w prawo</div>
-					<div>Podskocz</div>
-					<div>Otwórz to menu</div>
-				</div>
-			</div>
-		</div>
+			</CardHeader>
+			<Divider />
 
-		<div className="play">
-			<div className="button" id="play" onClick={e => {setUI(false);e.target.innerText = "Powrót na stronę"}}>Otwórz stronę!</div>
-		</div>
+			{/* Main contents box */}
+			<div className='grid grid-cols-2' style={{padding: 16}}>
+
+				<KeyboardControls controls={[
+					{key: "W", desc: "Idź naprzód"},
+					{key: "A", desc: "Idź w lewo"},
+					{key: "S", desc: "Idź do tyłu"},
+					{key: "D", desc: "Idź w prawo"},
+					{key: "shift", desc: "Biegnij"},
+					{key: "space", desc: "Podskocz"},
+					{key: "C", desc: "Kucnij"},
+				]} />
+
+				<Settings />
+
+			</div>
+			<Divider />
+
+			{/* Actions */}
+			<div className='flex justify-end gap-5' style={{padding: 16}}>
+				<Button className='mr-auto' onPress={onOpen}>Informacje</Button>
+				<Button onPress={resetScene} color='warning'>Restart sceny</Button>
+				<Button onPress={data.resetPosition}>Wróć na miejsce</Button>
+				<Button color='primary' id='play'>Graj</Button>
+			</div>
+			<About isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange} />
+
+		</Card>
 	</div>
 }

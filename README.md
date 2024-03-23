@@ -2,6 +2,10 @@
 
 Website source code for _meme_ domain I've bought on Porkbun for $1.50 during _holiday deals_ sale. It was intended to be a funny, unofficial [skni.umcs.pl](https://skni.umcs.pl/) replacement and a creative way to play with React & R3F :D
 
+**⚠️ Discrete GPU might be required ⚠️**
+
+**ℹ️ Old, more lightweight version is under `baked` branch ℹ️**
+
 ## Installation
 
 Prebuilt static files can be downloaded from **Releases.** Just unzip them to the root of your webserver.
