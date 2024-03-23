@@ -12,7 +12,7 @@ export const DataProvider = ({ children }) => {
 	})
 	const [showScene, setShowScene] = useState(true)
 	const [resolution, setResolution] = useState(2)
-	const resolutions = [0.5, 0.75, 1, 1.5, 2]
+	const resolutions = [0.25, 0.5, 1, 2, 4]
 	const [shadows, setShadows] = useState(0)
 	const [distance, setDistance] = useState(3)
 	const [gpuPower, setGpuPower] = useState(0)
