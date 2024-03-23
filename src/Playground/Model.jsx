@@ -90,10 +90,11 @@ export default function Model() {
 				const target = `light${sala}`
 				stuff.push(
 					<Clickable key={node.uuid} object={node.clone()}
-						onClick={v => {
+						onClick={() => {
 							for (let n in lights) {
 								if (n.startsWith(target)) {
-									lights[n].visible = v
+									lights[n].visible = !lights[n].visible
+									lights[n].rotation.z = (Math.PI - Math.PI * lights[n].visible)
 								}
 							}
 						}}

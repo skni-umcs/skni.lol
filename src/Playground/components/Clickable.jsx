@@ -6,7 +6,6 @@ import { useData } from "../../Utils/DataProvider"
 export default function Clickable({ object, onHover, onClick }) {
 	const three = useThree()
 	const data = useData()
-	const [value, setValue] = useState(false)
 	const [hovered, setHovered] = useState(false)
 
 	const isCloseEnough = () => {
@@ -35,9 +34,7 @@ export default function Clickable({ object, onHover, onClick }) {
 
 	const click = () => {
 		if (!onClick || !isCloseEnough()) return
-		onClick(value)
-		setValue(!value)
-		object.rotation.z = (Math.PI - Math.PI * value)
+		onClick()
 	}
 
 	return <primitive

@@ -40,7 +40,7 @@ export default function Playground() {
 			<PerspectiveCamera
 				ref={data.camera}
 				makeDefault
-				fov={65}
+				fov={60}
 				far={data.cameraFars[data.distance]} />
 
 			<ambientLight intensity={.025} color={0xffffff} />
@@ -53,7 +53,7 @@ export default function Playground() {
 					middleGrey={0.5}
 					maxLuminance={32}
 					averageLuminance={4}
-					adaptationRate={1.0}
+					adaptationRate={1}
 				/>
 			</EffectComposer>
 
