@@ -6,6 +6,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"
 import { Group } from "three"
 import Clickable from "./components/Clickable"
 import Clock from "./components/Clock"
+import PulsingLight from "./components/PulsingLight"
 
 export default function Model() {
 	const data = useData()
@@ -49,11 +50,15 @@ export default function Model() {
 				node.shadow.bias = -0.016
 				node.shadow.camera.near = 0.001
 				node.shadow.camera.far = 10
-				if (node.shadowMap) node.shadowMap.enabled = true
 				node.castShadow = false
 				node.distance = 8
 				if (name.includes("area")) node.distance = 64
 				lights[name] = node
+				if (name.includes("police")) {
+					const sin = !stuff.length
+					stuff.push(<PulsingLight light={node.clone()} sin={sin} />)
+					toremove.push(node)
+				}
 			}
 
 			if (node.material) {
