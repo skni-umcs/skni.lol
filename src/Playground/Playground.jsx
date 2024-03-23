@@ -16,12 +16,13 @@ export default function Playground() {
 
 	return <KeyboardControls
 		map={[
-			{ name: 'forward', keys: ['w', 'W'] },
-			{ name: 'backward', keys: ['s', 'S'] },
-			{ name: 'left', keys: ['a', 'A'] },
-			{ name: 'right', keys: ['d', 'D'] },
+			{ name: 'forward', keys: ['KeyW'] },
+			{ name: 'backward', keys: ['KeyS'] },
+			{ name: 'left', keys: ['KeyA'] },
+			{ name: 'right', keys: ['KeyD'] },
 			{ name: 'jump', keys: ['Space'] },
 			{ name: 'run', keys: ['Shift'] },
+			{ name: 'crouch', keys: ['KeyC'] },
 		]}>
 		<Canvas style={{
 				position: "fixed",
