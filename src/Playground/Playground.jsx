@@ -14,7 +14,7 @@ export default function Playground() {
 	const data = useData()
 	const useUI = data.ui
 
-	return <KeyboardControls
+	return <>{data.showScene && <KeyboardControls
 		map={[
 			{ name: 'forward', keys: ['KeyW'] },
 			{ name: 'backward', keys: ['KeyS'] },
@@ -65,5 +65,5 @@ export default function Playground() {
 			<PointerLockControls selector="#play" />
 
 		</Canvas>
-	</KeyboardControls>
+	</KeyboardControls>}</>
 }

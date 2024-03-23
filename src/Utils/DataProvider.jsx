@@ -10,6 +10,7 @@ export const DataProvider = ({ children }) => {
 	const [resetPosition, setResetPosition] = useState(() => {
 		return () => {}
 	})
+	const [showScene, setShowScene] = useState(true)
 	const [resolution, setResolution] = useState(2)
 	const resolutions = [0.5, 0.75, 1, 1.5, 2]
 	const [shadows, setShadows] = useState(0)
@@ -25,6 +26,7 @@ export const DataProvider = ({ children }) => {
 		ui, setUi,
 		resetPosition, setResetPosition,
 		resolution, setResolution, resolutions,
+		showScene, setShowScene,
 		shadows, setShadows,
 		distance, setDistance,
 		hover, setHover,

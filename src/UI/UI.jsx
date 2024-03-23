@@ -13,6 +13,14 @@ export default function UI() {
 	const [useUI, setUI] = [data.ui, data.setUi]
 	const {isOpen, onOpen, onOpenChange} = useDisclosure()
 
+	const resetScene = () => {
+		if (!data.showScene) return
+		data.setShowScene(false)
+		setTimeout(() => {
+			data.setShowScene(true)
+		}, 100)
+	}
+
 	useEffect(() => {
 		const func = () => {
 			setUI(!document.pointerLockElement)
@@ -65,7 +73,8 @@ export default function UI() {
 			{/* Actions */}
 			<div className='flex justify-end gap-5' style={{padding: 16}}>
 				<Button className='mr-auto' onPress={onOpen}>Informacje</Button>
-				<Button onPress={data.resetPosition}>Restart</Button>
+				<Button onPress={resetScene} color='warning'>Restart sceny</Button>
+				<Button onPress={data.resetPosition}>Wróć na miejsce</Button>
 				<Button color='primary' id='play'>Graj</Button>
 			</div>
 			<About isOpen={isOpen} onOpen={onOpen} onOpenChange={onOpenChange} />
