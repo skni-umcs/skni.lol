@@ -59,9 +59,9 @@ export default function BaseCharacter() {
 
 		// How does this even work?
 		if (!jumpLock && jump) {
-			ref.current.applyImpulse({ x: 0, y: 0.64, z: 0 }, true)
+			ref.current.applyImpulse({ x: 0, y: 0.75, z: 0 }, true)
 			jumpLock = true
-			setTimeout(() => {jumpLock = false}, 700)
+			setTimeout(() => {jumpLock = false}, 1000)
 		}
 	})
 
