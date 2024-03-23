@@ -20,7 +20,7 @@ export default defineConfig({
 	plugins: [react()],
 	define: {
 		'import.meta.env.VITEAPP_VERSION': JSON.stringify(
-			`v${pkg.version}-${!process.env.NODE_ENV == "development" ? "release" : "devel"}` ||
+			`v${pkg.version}-${process.env.NODE_ENV != "development" ? "release" : "devel"}` ||
 			"unknown"
 		)
 	}

@@ -12,8 +12,8 @@ export default function About({isOpen, onOpen, onOpenChange}) {
 			{/* Content */}
 			<ModalBody>
 				<div className="flex items-center flex-col">
-					<Image style={{paddingTop: 16, paddingBottom: 20}} src="/src/assets/icon.png"></Image>
-					<Chip color='warning' variant='flat'><div className='font-bold'>{import.meta.env.VITEAPP_VERSION}</div></Chip>
+					<Image style={{paddingTop: 16, paddingBottom: 20}} src="/icon.png"></Image>
+					<Chip color='success' variant='flat'><div className='font-bold'>{import.meta.env.VITEAPP_VERSION}</div></Chip>
 				</div>
 				<div>Nieoficjalny projekt strony internetowej 3D stworzony trochę z nudów, trochę dla jaj i trochę w ramach nauki.</div>
 				<div>Zapraszamy i zachęcamy do dołączenia do koła!</div>

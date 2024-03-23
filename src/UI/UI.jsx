@@ -36,7 +36,7 @@ export default function UI() {
 
 			{/* Header */}
 			<CardHeader className="flex gap-4">
-				<Image height={48} width={48} src="/src/assets/icon.png" />
+				<Image height={48} width={48} src="/icon.png" />
 				<div className="flex flex-col">
 					<p className="text-md">SKNI.lol</p>
 					<p className="text-small text-default-500">Studenckie Koło Naukowe Informatyki, ale w nieoficjalnym wydaniu xd</p>

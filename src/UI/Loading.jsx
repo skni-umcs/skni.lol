@@ -38,7 +38,7 @@ export default function Loading() {
 				marginBottom: 128,
 				animation: "pulse 3s infinite ease-in-out"
 			}}>
-				<Image src="/src/assets/icon.png" />
+				<Image src="/icon.png" />
 			</div>
 
 			<div className="flex justify-between items-end m-2" style={{color: "#666"}}>
