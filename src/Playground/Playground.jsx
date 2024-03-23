@@ -37,8 +37,6 @@ export default function Playground() {
 				outputColorSpace: SRGBColorSpace,
 				antialias: true,
 			}}>
-			<fog attach="fog" args={[0x000000, 0, 200]} />
-
 			<PerspectiveCamera
 				ref={data.camera}
 				makeDefault
@@ -59,7 +57,7 @@ export default function Playground() {
 				/>
 			</EffectComposer>
 
-			<Physics gravity={[0, -20, 0]}>
+			<Physics gravity={[0, -10, 0]}>
 				<Model />
 				<BaseCharacter />
 			</Physics>

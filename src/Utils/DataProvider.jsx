@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
 	const [gpuPower, setGpuPower] = useState(0)
 	const [hover, setHover] = useState(false)
 	const camera = useRef()
-	const cameraFars = [16, 48, 96, 192]
+	const cameraFars = [16, 48, 80, 192]
 
 	const store = {
 		loadProgress, setLoadProgress,

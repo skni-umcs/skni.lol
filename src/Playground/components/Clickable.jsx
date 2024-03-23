@@ -1,4 +1,4 @@
-import { useFrame, useThree } from "@react-three/fiber"
+import { useThree } from "@react-three/fiber"
 import { useEffect, useState } from "react"
 import * as THREE from "three"
 import { useData } from "../../Utils/DataProvider"
@@ -34,7 +34,7 @@ export default function Clickable({ object, onHover, onClick }) {
 	}, [hovered])
 
 	const click = () => {
-		if (!(data.hover && onClick)) return
+		if (!onClick || !isCloseEnough()) return
 		onClick(value)
 		setValue(!value)
 		object.rotation.z = (Math.PI - Math.PI * value)

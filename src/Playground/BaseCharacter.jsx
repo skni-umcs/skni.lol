@@ -59,7 +59,7 @@ export default function BaseCharacter() {
 
 		// How does this even work?
 		if (!jumpLock && jump) {
-			ref.current.applyImpulse({ x: 0, y: 1.2, z: 0 }, true)
+			ref.current.applyImpulse({ x: 0, y: 0.64, z: 0 }, true)
 			jumpLock = true
 			setTimeout(() => {jumpLock = false}, 700)
 		}
@@ -84,7 +84,7 @@ export default function BaseCharacter() {
 			position={data.position}
 			enabledRotations={[false, false, false]}>
 			<mesh>
-				<capsuleGeometry args={[0.2, characterHeight - crouchH, 3, 3]} />
+				<capsuleGeometry args={[0.16, characterHeight - crouchH, 12, 12]} />
 				<meshBasicMaterial opacity={0} transparent />
 			</mesh>
 		</RigidBody>

@@ -37,7 +37,7 @@ export default function Model() {
 			node.castShadow = true
 			node.receiveShadow = true
 
-			if (name.startsWith("#door")) {
+			if (name.startsWith("$")) {
 				toremove.push(node)
 			}
 
@@ -51,16 +51,20 @@ export default function Model() {
 				node.shadow.camera.far = 10
 				if (node.shadowMap) node.shadowMap.enabled = true
 				node.castShadow = false
-				node.distance = 10
-				if (name.includes("area")) node.distance = 100
+				node.distance = 8
+				if (name.includes("area")) node.distance = 64
 				lights[name] = node
 			}
 
-			if (node.material && node.material.name.toLowerCase().includes("window")) {
-				node.material.transparent = true
-				node.material.metalness = 0.4
-				node.material.roughness = 0
-				node.material.opacity = 0.1
+			if (node.material) {
+				const materialName = node.material.name.toLowerCase()
+				if (materialName.includes("window") ||
+				materialName.includes("glassyellow")) {
+					node.material.transparent = true
+					node.material.metalness = 0.4
+					node.material.roughness = 0
+					node.material.opacity = 0.15 + materialName.includes("glassyellow") * 0.4
+				}
 			}
 
 			if (name.startsWith("#clock")) {
@@ -74,7 +78,7 @@ export default function Model() {
 
 		for (let node of toremove) {
 			const name = node.name.toLowerCase()
-			if (name.startsWith("#door")) {
+			if (name.startsWith("$")) {
 				stuff.push(
 					<RigidBody key={node.uuid}>
 						<primitive object={node.clone()} />
