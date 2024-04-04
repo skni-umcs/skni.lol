@@ -51,8 +51,9 @@ export default function Model() {
 				node.shadow.camera.near = 0.001
 				node.shadow.camera.far = 10
 				node.castShadow = false
-				node.distance = 8
 				if (name.includes("area")) node.distance = 64
+				else node.distance = 8
+				if (name.includes("light")) node.visible = name.includes("327")
 				lights[name] = node
 				if (name.includes("police")) {
 					const sin = !stuff.length
