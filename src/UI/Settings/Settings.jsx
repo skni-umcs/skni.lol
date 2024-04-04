@@ -2,6 +2,7 @@ import { Progress } from "@nextui-org/react"
 import { useData } from "../../Utils/DataProvider"
 import { useEffect } from "react"
 import SliderTile from "./components/SliderTile"
+import * as icons from "react-icons/lu"
 
 export default function Settings() {
 	const data = useData()
@@ -11,7 +12,7 @@ export default function Settings() {
 
 	useEffect(() => {
 		let score = 0
-		score += 24 * data.resolutions[data.resolution]
+		score += 16 * data.resolutions[data.resolution]
 		score += data.cameraFars[data.distance] / 16
 		score += Boolean(data.shadows) * 32 + data.shadows * 16
 		data.setGpuPower(score)
@@ -21,7 +22,7 @@ export default function Settings() {
 		<Progress
 			label="Obciążenie"
 			value={data.gpuPower}
-			minValue={10}
+			minValue={0}
 			maxValue={100}
 			color={gpuColor}
 			style={{marginBottom: 24}}
@@ -50,6 +51,10 @@ export default function Settings() {
 			}}
 			arr={["Bardzo krótki", "Krótki", "Umiarkowany", "Pełny"]}
 		/>
+		<div style={{marginTop: 24}}>
+			<icons.LuCpu style={{verticalAlign: "middle", display: "inline-block", height: 36, width: 36, padding: 8, borderRadius: "50px", background: "#F444", color: "#F44"}} />
+			<p style={{verticalAlign: "middle", display: "inline-block", opacity: .4, fontSize: 14, width: `calc(100% - ${36+8+12}px)`, marginLeft: 12}}>Pamiętaj, że włączanie świateł za pomocą wyłączników przy drzwiach ma ogromny wpływ na wydajność</p>
+		</div>
 	</div>
 
 }
